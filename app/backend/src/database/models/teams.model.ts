@@ -20,9 +20,9 @@ TeamsModel.init({
   },
 }, {
   underscored: true,
-  modelName: 'teams',
   sequelize: db,
   timestamps: false,
+  modelName: 'teams',
 });
 
 export default TeamsModel;

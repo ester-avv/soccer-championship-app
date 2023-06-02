@@ -12,4 +12,12 @@ export default class TeamsService {
     const allTeams = await this.teamsModel.findAll();
     return allTeams;
   }
+
+  public async getTeamById(id: number): Promise<Team | null> {
+    const teamById = await this.teamsModel.findByPk(id);
+    if (teamById === null) {
+      throw new Error('O time não existe\'');
+    }
+    return teamById;
+  }
 }

@@ -14,7 +14,18 @@ export default class TeamsController {
       const allTeams = await this.teamsService.getAllTeams();
       res.status(200).json(allTeams);
     } catch (error) {
-      res.status(404).json({ error: 'Teams not found' });
+      res.status(404).json({ error: 'No teams found' });
+    }
+  }
+
+  public async getTeamById(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const teamId = Number(id);
+      const teams = await this.teamsService.getTeamById(teamId);
+      res.status(200).json(teams);
+    } catch (error) {
+      res.status(404).json({ error: 'Team not found' });
     }
   }
 }
