@@ -17,17 +17,13 @@ const invalidEmailPassw = {
 	message: 'Invalid email or password'
 };
 const myRole = {
-	role: 'user'
+	role: 'admin'
 };
 const invalidToken = {
 	message: 'Token must be a valid token'
 };
 
 describe('Testes da rota /login', () => {
-  afterEach(() => {
-    sinon.restore();
-  })
- 
     it('Verifica se todos os campos estão preenchidos para caso positivo', async () => {
       const response = await chai.request(app).post('/login').send({ email: 'email@email.com'});
       expect(response.body).to.deep.equal(allFielMustBeFilled);
@@ -55,22 +51,20 @@ describe('Testes da rota /login', () => {
       expect(token).to.be.a('string');
       expect(response.body).to.have.property('token');
       expect(response).to.have.status(200);
-      
-     /*  expect(token.split('.').length).to.equal(3); */
     })
 
-  /*   it('Verifica se retorna mensagem de erro se o token não for encontrado', async () => {
+    it('Verifica se retorna mensagem de erro se o token não for encontrado', async () => {
       const response = await chai.request(app).get('/login/role').set('Authorization', 'Bearer ' + invalidMock);
-      expect(response.body).to.deep.equal(invalidToken);
+      expect(response.body).to.be.deep.equal(invalidToken);
       expect(response).to.have.status(401);
     })
     it('Verifica se retorna o "role" do usuário', async () => {
       const login = await chai.request(app).post('/login').send(validLoginMock);
       sinon.stub(LoginService.prototype, 'enterLogin').resolves(login.body);
-      const getToken = login.body.token;
-      const response = await chai.request(app).get('/login/role').set('Authorization', getToken);
-      expect(response.body).to.deep.equal(myRole);
+      const mytoken = login.body.token;
+      const response = await chai.request(app).get('/login/role').set('Authorization', mytoken);
+      expect(response.body).to.be.deep.equal(myRole);
       expect(response).to.have.status(200);
-    }) */
+    }) 
 
 })
