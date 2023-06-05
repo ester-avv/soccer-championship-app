@@ -2,20 +2,21 @@ import * as chai from 'chai';
 /* import { Response } from 'superagent'; */
 // @ts-ignore
 import { endedMatches, matchesInProg, myMatches } from './mocks/matches.mock'
-import { App as app } from '../app';
-/* import * as sinon from 'sinon'; */
+import { app } from '../app';
+import * as sinon from 'sinon'; 
 // @ts-ignore
 import Http = require('chai-http');
+import MatchModel from '../database/models/matches.model';
+import { MatchI } from '../interfaces/match'
+import MatchesService from '../services/matches.service';
 chai.use(Http);
 
 const { expect } = chai;
 
 describe('Testes rota /matches', () => {
 
-    it('Verifica se é retornada todas as partidas', async () => {
-
-      const response = await chai.request(app)
-      .get('/matches')
+    it('Verifica se é retornada todas as partidas do banco', async () => {
+      const response = await chai.request(app).get('/matches')
   
       const { status, body } = response;
   
@@ -44,10 +45,12 @@ describe('Testes rota /matches', () => {
       .send({
         homeTeamId: 16,
         awayTeamId: 3,
+        homeTeamGoals: 2,
+        awayTeamGoals: 2
       })
       const { status, body } = response;
       
-      expect(body.message).to.be.deep.equal('Token not found');
+      expect(body.message).to.be.deep.equal( 'Token not found');
       expect(status).to.be.equal(401);   
     });
     it('Verifica se é possivel colocar uma partida em progresso sem token valido', async () => {
@@ -58,7 +61,7 @@ describe('Testes rota /matches', () => {
       .set({ authorization: 'aaaaaaa' })
       .send({
         homeTeamId: 16,
-        awayTeamId: 16,
+        awayTeamId: 2,
       })
       const { status, body } = response;    
       expect(body.message).to.be.deep.equal('Token must be a valid token');     
