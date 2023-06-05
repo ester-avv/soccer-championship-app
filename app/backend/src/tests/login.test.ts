@@ -26,25 +26,24 @@ const invalidToken = {
 describe('Testes da rota /login', () => {
     it('Verifica se todos os campos estão preenchidos para caso positivo', async () => {
       const response = await chai.request(app).post('/login').send({ email: 'email@email.com'});
-      expect(response.body).to.deep.equal(allFielMustBeFilled);
-      expect(response).to.have.status(400);
-    })
-    it('Verifica se todos os campos estão preenchidos para caso negativo', async () => {
-      const response = await chai.request(app).post('/login').send({ password: '123456'});
-      expect(response.body).to.deep.equal(allFielMustBeFilled);
+      expect(response.body).to.be.deep.equal(allFielMustBeFilled);
       expect(response).to.have.status(400);
     })
     it('Verifica se retorna erro caso o email esteja errado', async () => {
         const response = await chai.request(app).post('/login').send({ email: 'email_invalid', password: '123456'});
-        expect(response.body).to.deep.equal(invalidEmailPassw);
+        expect(response.body).to.be.deep.equal(invalidEmailPassw);
         expect(response).to.have.status(401);
       })
     it('Verifica se retorna erro caso a senha esteja errada', async () => {
       const response = await chai.request(app).post('/login').send({ email: 'email@email.com', password: '1234'});
-      expect(response.body).to.deep.equal(invalidEmailPassw);
+      expect(response.body).to.be.deep.equal(invalidEmailPassw);
       expect(response).to.have.status(401);
     })
-    
+    it('Verifica se todos os campos estão preenchidos para caso negativo', async () => {
+      const response = await chai.request(app).post('/login').send({ password: '123456'});
+      expect(response.body).to.be.deep.equal(allFielMustBeFilled);
+      expect(response).to.have.status(400);
+    })
     it('Verifica se retorna um token válido os dados estejam certos', async () => {
         const response = await chai.request(app).post('/login').send(validLoginMock);
         const token = response.body.token;
@@ -52,7 +51,6 @@ describe('Testes da rota /login', () => {
       expect(response.body).to.have.property('token');
       expect(response).to.have.status(200);
     })
-
     it('Verifica se retorna mensagem de erro se o token não for encontrado', async () => {
       const response = await chai.request(app).get('/login/role').set('Authorization', 'Bearer ' + invalidMock);
       expect(response.body).to.be.deep.equal(invalidToken);
