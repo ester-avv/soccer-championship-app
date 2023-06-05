@@ -38,7 +38,6 @@ describe('Testes da rota /login', () => {
       expect(response.body).to.deep.equal(allFielMustBeFilled);
       expect(response).to.have.status(400);
     })
- 
     it('Verifica se retorna erro caso o email esteja errado', async () => {
         const response = await chai.request(app).post('/login').send({ email: 'email_invalid', password: '123456'});
         expect(response.body).to.deep.equal(invalidEmailPassw);
