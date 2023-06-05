@@ -16,8 +16,6 @@ import TeamsModel from '../database/models/teams.model';
 
 import { teamsMock, palmeiras } from './mocks/teams.mock';
 import TeamsService from '../services/teams.service';
-import Team from '../interfaces/team';
-/* import Team from '../interfaces/team'; */
 
 describe('Testes da rota /teams', () => {
     it('Verifica o endpoint get para pegar todos os times', async () => {
@@ -27,7 +25,7 @@ describe('Testes da rota /teams', () => {
   
       const response = await chai.request(app).get('/teams');
   
-      expect(response.body).to.be.equal(teamsMock)
+      expect(response.body).to.deep.equal(teamsMock)
       expect(response).to.have.status(200);
     });
   
@@ -39,6 +37,6 @@ describe('Testes da rota /teams', () => {
       const response = await chai.request(app).get('/teams/12');
   
       expect(response).to.have.status(200);
-      expect(response.body).to.be.equal(palmeiras)
+      expect(response.body).to.be.deep.equal(palmeiras)
     });
   });
