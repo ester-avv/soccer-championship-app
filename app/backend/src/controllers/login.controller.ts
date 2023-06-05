@@ -1,6 +1,10 @@
 import { Response, Request } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
+import { verifyToken } from '../utils/auth';
 import LoginService from '../services/login.service';
 import LoginModel from '../database/models/login.model';
+
+const invalidMessage = { message: 'Invalid email or password' };
 
 class LoginController {
   private loginService: LoginService;
@@ -17,11 +21,21 @@ class LoginController {
       }
       const tryLogin = await this.loginService.enterLogin(email, password);
       if (!tryLogin) {
-        return res.status(401).json({ message: 'Invalid email or password' });
+        return res.status(401).json(invalidMessage);
       }
       return res.status(200).json(tryLogin);
     } catch (err) {
-      res.status(401).json({ message: 'Invalid email or password' });
+      res.status(401).json(invalidMessage);
+    }
+  }
+
+  public static async getLogin(req: Request, res: Response) {
+    try {
+      const { authorization } = req.headers;
+      const verificationToken = verifyToken(authorization || '') as JwtPayload;
+      res.status(200).json({ role: verificationToken.role });
+    } catch (error) {
+      res.status(401).json(invalidMessage);
     }
   }
 }
