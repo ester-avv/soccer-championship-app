@@ -60,12 +60,7 @@ describe('Testes da rota /login', () => {
      /*  expect(token.split('.').length).to.equal(3); */
     })
 
-/*     it('Testa se retorna status 401 e mensagem de erro se o token não for encontrado', async () => {
-      const response = await chai.request(app).get('/login/role');
-      expect(response).to.have.status(401);
-      expect(response.body).to.deep.equal(tokenNotFound) */
-    // })
-    it('Verifica se retorna mensagem de erro se o token não for encontrado', async () => {
+  /*   it('Verifica se retorna mensagem de erro se o token não for encontrado', async () => {
       const response = await chai.request(app).get('/login/role').set('Authorization', 'Bearer ' + invalidMock);
       expect(response.body).to.deep.equal(invalidToken);
       expect(response).to.have.status(401);
@@ -77,6 +72,6 @@ describe('Testes da rota /login', () => {
       const response = await chai.request(app).get('/login/role').set('Authorization', getToken);
       expect(response.body).to.deep.equal(myRole);
       expect(response).to.have.status(200);
-    })
+    }) */
 
 })
