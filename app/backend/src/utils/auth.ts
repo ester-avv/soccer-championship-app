@@ -6,7 +6,7 @@ export const secret = jwtSecret || 'secret';
 
 const JWT_CONFIG: jwt.SignOptions = {
   algorithm: 'HS256',
-  expiresIn: '10d',
+  expiresIn: '12d',
 };
 
 export const generateToken = (id: string, role: string) =>
