@@ -5,7 +5,26 @@ import sequelize from '../database/models';
 class homeLeaderService {
   private _model: ModelStatic<MatchesModel> = MatchesModel;
 
-  static async getHome() {
+  /*   public async findAllGames(): Promise<{ totalGames: number, name: string }[]> {
+    const games = await this.sequelize.query(
+      `
+      SELECT teams.team_name AS name,
+      COUNT(*) AS totalGames
+      FROM teams
+      JOIN matches
+      ON teams.id = matches.home_team_id AND matches.in_progress = false
+      OR teams.id = matches.away_team_id AND matches.in_progress = false
+      GROUP BY teams.id;
+      `,
+      { type: 'SELECT' },
+    );
+    return games as { totalGames: number, name: string }[];
+  }
+ */
+
+  // Carol me ajudou a fazer
+
+  static async allHomeLead() {
     const [result] = await sequelize.query(
       `SELECT teams.team_name as name,
 hm.drawns + (hm.victories * 3) as totalPoints,

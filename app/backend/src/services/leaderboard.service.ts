@@ -2,6 +2,35 @@ import { Sequelize } from 'sequelize';
 import TeamsModel from '../database/models/teams.model';
 import MatchesModel from '../database/models/matches.model';
 
+/* class homeLeaderService {
+  private _model: ModelStatic<MatchesModel> = MatchesModel;
+
+  static async getHome() {
+    const [result] = await sequelize.query(
+      `SELECT teams.team_name as name,
+team.drawns + (team.victories * 3) as totalPoints,
+team.totalg as totalGames, team.victories as totalVictories,
+team.drawns as totalDraws, team.losses as totalLosses,
+team.golsHome as goalsFavor, team.own as goalsOwn, team.golsBalance as goalsBalance,
+ROUND((team.drawns + (team.victories * 3)) / (team.totalg * 3) * 100, 2) as efficiency
+
+FROM teams RIGHT JOIN( SELECT mt.home_team_id, SUM(mt.home_team_goals) as golsHome,
+SUM(mt.home_team_goals > mt.away_team_goals) as victories,
+SUM(mt.home_team_goals = mt.away_team_goals) as drawns,
+SUM(mt.home_team_goals < mt.away_team_goals) as losses,
+COUNT(mt.home_team_id) as totalg, SUM(mt.away_team_goals) as own,
+SUM(mt.home_team_goals - mt.away_team_goals) as golsBalance
+FROM matches as mt WHERE mt.in_progress = 0 GROUP BY mt.home_team_id
+) as team ON teams.id = team.home_team_id GROUP BY teams.id ORDER BY
+totalPoints DESC, totalVictories DESC, goalsBalance DESC, goalsFavor DESC, goalsOwn DESC`,
+    );
+    return result;
+  }
+}
+ */
+
+// ajuda mentoria turma 27, e mentoria turma 25, também conversei com quem estava na salinha da turma 25, dia 5/6 a noite, pra fazer
+// SEPARAR FUNÇAO PRA CADA ETAPA
 export default class HomeLeaderBServ {
   private sequelize: Sequelize;
   private teamsModel: typeof TeamsModel;
