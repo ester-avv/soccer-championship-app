@@ -22,7 +22,7 @@ class homeLeaderService {
   }
  */
 
-  // Carol me ajudou a fazer
+  // monitoria turma 25
 
   static async allHomeLead() {
     const [result] = await sequelize.query(

@@ -13,8 +13,12 @@ export default class LeaderboardController {
   constructor() {
     this._leaderboardService = new LeaderboardService(sequelize, TeamsModel, MatchesModel);
   }
+  /*  static async leaders(req: Request, res: Response) {
+    const allLeaders = await LeaderBHomeService.allHomeLead();
 
-  public async getData() {
+    return res.status(200).json(allLeaders); */
+
+  public async findData() {
     const [points, totalGames, totalVictories, totalDraws, totalLosses, goalsFavor,
       goalsOwn, goalsBalance, efficiency] = await Promise.all([
       this._leaderboardService.calculatePoints(), this._leaderboardService.findAllGames(),
@@ -37,7 +41,7 @@ export default class LeaderboardController {
 
   public async getLeaderboard() {
     const { points, totalGames, totalVictories, totalDraws,
-      totalLosses, goalsFavor, goalsOwn, goalsBalance, efficiency } = await this.getData();
+      totalLosses, goalsFavor, goalsOwn, goalsBalance, efficiency } = await this.findData();
 
     const orgLeaders = points.map((p: { name: string; totalPoints: number; }) => ({
       name: p.name,
