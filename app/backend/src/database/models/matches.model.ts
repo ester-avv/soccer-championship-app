@@ -9,6 +9,9 @@ export default class MatchModel extends Model {
   public awayTeamGoals!: number;
   public inProgress!: boolean;
   public homeTeamId!: number;
+
+  public homeTeam!: TeamsModel;
+  public awayTeam!: TeamsModel;
 }
 
 MatchModel.init({
@@ -54,7 +57,7 @@ MatchModel.init({
   modelName: 'matches',
 });
 
-// duvida Gabriel monitor ????????ww
+// duvida Gabriel monitor
 
 TeamsModel.hasMany(MatchModel, { foreignKey: 'homeTeamId', as: 'homeTeam' });
 TeamsModel.hasMany(MatchModel, { foreignKey: 'awayTeamId', as: 'awayTeam' });

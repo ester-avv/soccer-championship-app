@@ -3,7 +3,6 @@ import MatchesController from '../controllers/matches.controller';
 import validToken from '../middlewares/token.validation';
 import validateTeams from '../middlewares/teams.validation';
 /* import validateTeamsExist from '../middlewares/teams.validation'; */
-/* import LoginModel from 'src/database/models/login.model'; */
 
 const routerMatches = express.Router();
 const matchesController = new MatchesController();

@@ -13,6 +13,15 @@ chai.use(Http);
 
 const { expect } = chai;
 
+const newMatch = {
+  id: 49,
+  homeTeamId: 12,
+  awayTeamId: 9,
+  homeTeamGoals: 3,
+  awayTeamGoals: 1,
+  inProgress: true,
+};
+
 describe('Testes rota /matches', () => {
 
     it('Verifica se é retornada todas as partidas do banco', async () => {
@@ -53,6 +62,17 @@ describe('Testes rota /matches', () => {
       expect(body.message).to.be.deep.equal( 'Token not found');
       expect(status).to.be.equal(401);   
     });
+    it('Verifica se não é possível inserir uma partida sem token', async () => {
+      const response = await chai.request(app).post('/matches').send({
+        homeTeamId: 1,
+        awayTeamId: 1,
+        homeTeamGoals: 2,
+        awayTeamGoals: 2
+      })
+    
+      expect(response.body).to.deep.equal({ message: 'Token not found'});
+      expect(response).to.have.status(401);
+      })
     it('Verifica se é possivel colocar uma partida em progresso sem token valido', async () => {
 
         const response = await chai
@@ -87,5 +107,24 @@ describe('Testes rota /matches', () => {
   
       expect(status).to.be.equal(422);
       expect(body).to.deep.equal({ message: 'It is not possible to create a match with two equal teams' });     
+    });
+    it('Verifica se é possível criar partida', async () => {
+      const matchStub = sinon.stub(MatchModel, 'create').resolves(newMatch as MatchModel);
+
+      const login = await chai.request(app).post('/login').send({
+        email: "user@user.com",
+	      password: "secret_user"
+      });
+
+      const mytoken = login.body.token;
+      const response = await chai.request(app).post('/matches').send({
+      homeTeamId: 12,
+      awayTeamId: 9,
+      homeTeamGoals: 3,
+      awayTeamGoals: 1
+      }).set('Authorization', mytoken);
+      expect(response.body).to.be.deep.equal(newMatch);
+      expect(response).to.have.status(201);
+      matchStub.restore();
     });
 });
