@@ -22,7 +22,7 @@ class homeLeaderService {
   }
  */
 
-  // monitoria turma 25
+  // monitoria turma 28
 
   static async allHomeLead() {
     const [result] = await sequelize.query(
